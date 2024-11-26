@@ -21,15 +21,7 @@ public class Fragment_threeIntroduce extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.introduce_three, null, false);
         pager2 = new AdapterViewPager2(getActivity());
-//        btn_next = view.findViewById(R.id.btn_next);
-//
-//        btn_next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                pager2.setCurrentItem(1, true);
-//            }
-//        });
+
         return view;
     }
 }
