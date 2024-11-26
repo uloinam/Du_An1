@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/thongKe"
+        android:title="Thống kê doanh thu"
+        android:icon="@drawable/ic_thongke"/>
+    <item android:id="@+id/nav_HoaDon"
+        android:title="Hóa Đơn"
+        android:icon="@drawable/ic_hoadon"
+        />
+    <item android:id="@+id/nav_QLNV"
+        android:title="Quản lý nhân viên"
+        android:icon="@drawable/ic_nhanvien"/>
+    <item android:id="@+id/nav_History"
+        android:title="Lịch sử nhập xuất kho"
+        android:icon="@drawable/ic_history"/>
+    <group android:checkableBehavior="single" >
+        <item android:title="Tài khoản"
+            android:iconTint="@color/black">
+            <menu>
+                <item android:title="Đổi mật khẩu"
+                    android:icon="@drawable/ic_restpassword"
+                    android:id="@+id/nav_DoiPassword"/>
+                <item android:title="Đăng xuất"
+                    android:icon="@drawable/ic_logout"
+                    android:id="@+id/nav_Dangxuat"/>
+            </menu>
+        </item>
+    </group>
+</menu>

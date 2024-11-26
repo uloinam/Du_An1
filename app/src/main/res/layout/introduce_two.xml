@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="Quản lý dễ dàng"
+        android:textColor="@color/black"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView01"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Dễ dàng sử dụng cho người mới bắt đầu "
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="-50dp"
+        android:src="@drawable/combo_chart"
+        app:layout_constraintStart_toStartOf="@id/gl_01"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="-30dp"
+        android:src="@drawable/pass"
+        app:layout_constraintBottom_toBottomOf="@id/gl_02"
+        app:layout_constraintStart_toEndOf="@id/logo" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/health_graph"
+        app:layout_constraintBottom_toBottomOf="@id/gl_02"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/textView_01"
+        android:layout_width="275dp"
+        android:text="Thống kê doanh thu cửa hàng báo cáo chi tiết hàng hóa, sản phẩm..."
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/black"
+        android:layout_marginTop="50px"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        android:gravity="center"/>
+    <View
+        android:id="@+id/index"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_01"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+<!--    <Button-->
+<!--        android:id="@+id/btn_next"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:text="Next"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_margin="50px"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/index"-->
+<!--        android:background="@drawable/border_button"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="50px"-->
+<!--        android:backgroundTint="#30A9D5"/>-->
+<!--    <TextView-->
+<!--        android:id="@+id/textView_02"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:text="Skip"-->
+<!--        android:textSize="20dp"-->
+<!--        android:textColor="#30A9D5"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_next"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_margin="10px"-->
+<!--        android:layout_height="wrap_content"/>-->
+</androidx.constraintlayout.widget.ConstraintLayout>
