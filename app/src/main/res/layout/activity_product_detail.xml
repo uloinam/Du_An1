@@ -15,7 +15,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_height="50dp"/>
-
+    <ImageView
+        android:id="@+id/btn_update"
+        android:layout_width="30dp"
+        android:src="@drawable/ic_update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:layout_height="30dp"/>
     <ImageView
         android:id="@+id/image_product"
         android:layout_width="match_parent"
@@ -63,7 +70,30 @@
             android:gravity="end|center"
             android:layout_weight="1"/>
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_Brand_Product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:text="Hãng"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Layout_Liner_1" />
+    <TextView
+        android:id="@+id/tv_Dimensions_Product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:text="Kích thước"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Brand_Product" />
     <TextView
         android:id="@+id/tv_Descrption_Product"
         android:layout_width="match_parent"
@@ -75,7 +105,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Layout_Liner_1" />
+        app:layout_constraintTop_toBottomOf="@id/tv_Dimensions_Product" />
     <ImageView
         android:id="@+id/btn_remove_Count_Product"
         android:layout_width="30dp"

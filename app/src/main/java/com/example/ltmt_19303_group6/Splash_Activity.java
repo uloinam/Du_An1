@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.ltmt_19303_group6.Login_SingIn.Login_Activity;
+
 public class Splash_Activity extends AppCompatActivity {
 
     @Override
@@ -31,7 +33,7 @@ public class Splash_Activity extends AppCompatActivity {
             public void run() {
 
                 if (sharedPreferences.getBoolean("MY_FIRT_INSTALL_APP", false)){
-                    startActivity(new Intent(Splash_Activity.this, MainActivity.class));
+                    startActivity(new Intent(Splash_Activity.this, Login_Activity.class));
                     finishAffinity();
                 }else{
                     startActivity(new Intent(Splash_Activity.this, Introduce_Activity.class));

@@ -19,9 +19,6 @@
             android:name=".Activity.Activity_Product_Detail"
             android:exported="false" />
         <activity
-            android:name=".Login_SingIn.SignIn_Activity"
-            android:exported="false" />
-        <activity
             android:name=".Login_SingIn.Login_Activity"
             android:exported="false" />
         <activity

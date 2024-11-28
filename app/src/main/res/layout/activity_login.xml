@@ -125,9 +125,9 @@
             android:textColorHint="#575757"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_phoneNumber"
+                android:id="@+id/edt_user"
                 android:layout_width="320dp"
-                android:hint="Nhập SDT: "
+                android:hint="Nhập user: "
                 android:maxLines="1"
                 android:inputType="text"
                 android:textColor="@color/black"
@@ -141,6 +141,7 @@
             app:layout_constraintTop_toBottomOf="@id/gl_03"
             app:layout_constraintEnd_toEndOf="@id/boderLogin"
             android:layout_width="320dp"
+            app:passwordToggleEnabled="true"
             android:textColorHint="#575757"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
