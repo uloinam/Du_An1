@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (item.getItemId() == R.id.nav_thongKe){
                     // check Fragment hiện tại có phải Fragment home
-                    // Tránh việc khởi tạo lại Fragment Lãng phí dung lươn
+                    // Tránh việc khởi tạo lại Fragment
                     if (myFragMent  != FRAGMENT_TK_DOANHTHU){
 
                         setFragment(new Fragment_ThongKe_DoanhThu());
@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().replace(R.id.Fragment_Container, fragment).commit();
     }
 
+    // Sử lý ẩn /Hiện edt_search và button search
     public void setAction_Search(){
         if (btn_search.getVisibility() == View.VISIBLE && myFragMent == FRAGMENT_PROFILE){
             btn_search.setVisibility(View.GONE);

@@ -27,41 +27,43 @@
         android:paddingLeft="20dp"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/giamGia_SanPham"
+            android:id="@+id/tenSanPham"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textSize="16dp"
-            android:textColor="@color/red"
+            android:textColor="#595959"
             android:textStyle="bold"
-            android:text="900000đ"
+            android:text="Tên sản phẩm"
             android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/giamGoc_SanPham"
+            android:id="@+id/tv_LoaiSanPham"
             android:paddingLeft="10dp"
             android:layout_width="0dp"
             android:gravity="end"
             android:layout_weight="1"
-            android:text="10000000đ"
+            android:text="Loại"
             android:textColor="@color/gray"
             android:textSize="16dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
         android:layout_height="wrap_content">
+
         <TextView
-            android:id="@+id/tenSanPham"
+            android:id="@+id/gia_SanPham"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textSize="16dp"
+            android:gravity="start|center"
+            android:text="200VND"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="Null"
-            android:layout_height="wrap_content"/>
+            android:textSize="14dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tonKho"
             android:paddingLeft="10dp"
