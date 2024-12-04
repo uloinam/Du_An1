@@ -19,7 +19,7 @@ public class Fragment_Home extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container, false );
-        rc_lvProduct = view.findViewById(R.id.RecycV_Product);
+
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         rc_lvProduct.setLayoutManager(layoutManager);
