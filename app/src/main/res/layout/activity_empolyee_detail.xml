@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Activity_Empolyee_Detail"
+    android:layout_margin="10dp"
+    android:background="@color/white">
+
+    <!-- Background Design -->
+    <View
+        android:id="@+id/top_background"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="@drawable/logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:contentDescription="Back Button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <!-- Profile Image -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/account_ic"
+        android:scaleType="centerCrop"
+        android:contentDescription="Profile Picture"
+        app:layout_constraintTop_toBottomOf="@+id/top_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!-- Edit Icon -->
+    <ImageView
+        android:id="@+id/edit_profile_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        app:layout_constraintStart_toStartOf="@id/profile_image"
+        app:layout_constraintEnd_toEndOf="@id/profile_image"
+        app:layout_constraintHorizontal_bias="1.0"
+         />
+
+    <!-- Header Text -->
+    <TextView
+        android:id="@+id/tv_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!-- Input Fields -->
+    <EditText
+        android:id="@+id/edt_Username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Tên người dùng"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/black"
+        android:background="@drawable/border_edt"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+    <EditText
+        android:id="@+id/edt_Age"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Tuổi"
+        android:background="@drawable/border_edt"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/black"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/edt_Username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/edt_Email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border_edt"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/black"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/edt_Age"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/edt_PhoneNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/black"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border_edt"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/edt_Email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+         />
+
+    <!-- Change Password Button -->
+    <TextView
+        android:id="@+id/tv_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/group_radio"
+        android:text="Trạng thái"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/group_radio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_PhoneNumber" />
+    <RadioGroup
+        android:id="@+id/group_radio"
+        app:layout_constraintTop_toBottomOf="@+id/edt_PhoneNumber"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_01"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rdo_dangLam"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:textColor="@color/black"
+            android:buttonTint="@color/black"
+            style="@style/ThemeOverlay.Material3"
+            android:text="Đang làm"
+            android:backgroundTint="@color/black"
+            android:layout_marginStart="20dp"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/rdo_daNghi"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:text="Đã nghỉ"
+            android:buttonTint="@color/black"
+            style="@style/ThemeOverlay.Material3"
+            android:backgroundTint="@color/black"
+            android:layout_marginStart="20dp"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_change"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/blueLoGo"
+        android:text="Chỉnh sửa thông tin"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/group_radio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+         />
+</androidx.constraintlayout.widget.ConstraintLayout>

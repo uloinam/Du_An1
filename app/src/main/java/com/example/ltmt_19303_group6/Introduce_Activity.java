@@ -20,13 +20,13 @@ import com.example.ltmt_19303_group6.AnimationViewPage2.ZoomOutPageTransformer;
 import com.example.ltmt_19303_group6.Login_SingIn.Login_Activity;
 
 public class Introduce_Activity extends AppCompatActivity {
-    private static final String TAG = "zzzzzzzzzzzzzz";
+
     ViewPager2 viewPager2;
     AdapterViewPager2 pager2;
     Button btn_Next;
     TextView tv_Skip;
     Integer  myCurrent = 0;
-    View index01, index02, index03;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +36,7 @@ public class Introduce_Activity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.ViewPager2_Introduce);
         tv_Skip = findViewById(R.id.tv_Skip);
         pager2 = new AdapterViewPager2(this);
-        index01 = findViewById(R.id.index01);
-        index02 = findViewById(R.id.index02);
-        index03 = findViewById(R.id.index03);
+
 
 
         btn_Next  = findViewById(R.id.btn_next);

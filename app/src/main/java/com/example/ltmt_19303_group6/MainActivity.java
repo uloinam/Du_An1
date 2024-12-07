@@ -1,18 +1,28 @@
 package com.example.ltmt_19303_group6;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -25,6 +35,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.ltmt_19303_group6.AdapterView.Adapter_Group_Product;
+import com.example.ltmt_19303_group6.DAO.Category_DAO;
+import com.example.ltmt_19303_group6.DAO.Group_Product_DAO;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Customer;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Doi_Password;
 import com.example.ltmt_19303_group6.Fragment.Fragment_HoaDon;
@@ -34,9 +47,14 @@ import com.example.ltmt_19303_group6.Fragment.Fragment_Profile;
 import com.example.ltmt_19303_group6.Fragment.Fragment_QL_NhanVien;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Shop_Cart;
 import com.example.ltmt_19303_group6.Fragment.Fragment_ThongKe_DoanhThu;
+import com.example.ltmt_19303_group6.Login_SingIn.Login_Activity;
+import com.example.ltmt_19303_group6.Model.Category_Model;
+import com.example.ltmt_19303_group6.Model.Group_Product;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static final int FRAGMENT_HOME = 0;
@@ -48,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FRAGMENT_QUANLY_NHANVIEN = 6;
     public static final int FRAGMENT_LICH_SU_NHAP_XUAT = 7;
     public static final int FRAGMENT_DOI_PASSWORD = 8;
-
+    public static final int DIALOG_ADD_CATEGORY = 9;
     ImageView btn_search;
     EditText edt_Search;
     Integer myFragMent = 0;
@@ -58,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNav;
     FragmentManager fm;
     FragmentContainerView fm_Container;
+    Category_DAO categoryDao;
+    Group_Product_DAO groupProductDao;
+    Integer id_Group_Product;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
         // set actionbar
         setSupportActionBar(toolbar);
 
+        evenClick_Menu_Toolbar();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN", MODE_PRIVATE);
+        Integer id = sharedPreferences.getInt("USER_LOGIN", 0);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this
                 , drawerLayout
@@ -88,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         // set sự kiện lắng nghe của drawToggle
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
 
         // setFragment đầu tiên
         setFragment(new Fragment_Home());
@@ -137,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                         myFragMent = FRAGMENT_DOI_PASSWORD;
                         setAction_Search();
                     }
+                } else if (item.getItemId() == R.id.nav_category) {
+                    ShowDiaLog_Add_Category();
                 }
                 drawerLayout.close();
                 return true;
@@ -177,7 +205,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_profile){
                     if (myFragMent  != FRAGMENT_PROFILE){
-
+                        Fragment_Profile fragmentProfile = new Fragment_Profile();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id_user", id);
+                        fragmentProfile.setArguments(bundle);
                         setFragment(new Fragment_Profile());
                         myFragMent = FRAGMENT_PROFILE;
                         setAction_Search();
@@ -186,6 +217,64 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void ShowDiaLog_Add_Category() {
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_add_category, null, false);
+
+        EditText edt_Name_Category;
+        Button btn_XacNhan;
+        Spinner sp_group_product;
+
+        btn_XacNhan = view.findViewById(R.id.btn_xacNhan);
+        edt_Name_Category = view.findViewById(R.id.edt_Name);
+        sp_group_product = view.findViewById(R.id.sp_group_pruct);
+        ArrayList<Group_Product> list = groupProductDao.getList_Group_Product();
+
+        ArrayList<String> Name_Group_Product = new ArrayList<>();
+        if (list != null){
+            for (Group_Product list_name_group : list){
+                Name_Group_Product.add(list_name_group.getName());
+            }
+            Adapter_Group_Product arrayAdapter =  new Adapter_Group_Product(this, R.layout.item_one_group_product,list );
+            sp_group_product.setAdapter(arrayAdapter);
+        }
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(view);
+
+        sp_group_product.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                id_Group_Product = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                id_Group_Product = 0;
+            }
+        });
+        Dialog dialog = builder.create();
+        btn_XacNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name_category = edt_Name_Category.getText().toString().trim();
+
+                if (name_category.isEmpty()){
+                    edt_Name_Category.setError("Chưa nhập tên loại sản phẩm mới");
+                }else {
+                    boolean result = categoryDao.add_Category(new Category_Model(null, name_category, id_Group_Product));
+                    if (result){
+                        Toast.makeText(MainActivity.this, "Đã thêm thể loại mới thành công", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                }
+            }
+        });
+
+        dialog.show();
+
     }
 
     // Ánh xạ
@@ -201,6 +290,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Fragment Conatiner view
         fm_Container = findViewById(R.id.Fragment_Container);
+
+        categoryDao = new Category_DAO(MainActivity.this);
+        groupProductDao = new Group_Product_DAO(MainActivity.this);
     }
 
     // set sự kiện nhấn nút 3 chấm của toolbar
@@ -229,5 +321,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void evenClick_Menu_Toolbar(){
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.add_group_product){
+                    ShowDiaLog_Add_Group_Product();
+                }
+                return true;
+            }
+        });
+    }
 
+    public void ShowDiaLog_Add_Group_Product(){
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_add_group_product, null, false);
+
+        EditText edt_name_group_product = view.findViewById(R.id.edt_Name);
+        Button btn_XacNhan = view.findViewById(R.id.btn_xacNhan);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(view);
+
+        Dialog dialog = builder.create();
+
+        btn_XacNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name_group_product = edt_name_group_product.getText().toString().trim();
+                if (name_group_product != null){
+                    Group_Product groupProduct = new Group_Product(null, name_group_product);
+                    boolean reslut = groupProductDao.add_group_product(groupProduct);
+                    if (reslut){
+                        Toast.makeText(MainActivity.this, "Tạo nhóm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                }
+            }
+        });
+        dialog.show();
+    }
 }

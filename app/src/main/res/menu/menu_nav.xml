@@ -13,6 +13,9 @@
     <item android:id="@+id/nav_History"
         android:title="Lịch sử nhập xuất kho"
         android:icon="@drawable/ic_history"/>
+    <item android:id="@+id/nav_category"
+        android:icon="@drawable/ic_category"
+        android:title="Thêm loại sản phẩm"/>
     <group android:checkableBehavior="single" >
         <item android:title="Tài khoản"
             android:iconTint="@color/black">

@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context) {
-        super(context, "DuAn1.db", null, 2);
+        super(context, "DuAn1.db", null, 17);
     }
 
     @Override
@@ -20,15 +20,28 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CrTab_Profiles);
 
         // tạo bảng User
-        String CrTab_User = "CREATE TABLE Employee (ID_Empolyee INTEGER PRIMARY KEY AUTOINCREMENT, UserName_Employee TEXT NOT NULL, Password_Employee TEXT, Position TEXT, ID_Profiles INTEGER CONSTRAINT fk_profile REFERENCES Profiles (ID_Profiles))";
+        String CrTab_User = "CREATE TABLE Employee (ID_Empolyee INTEGER PRIMARY KEY AUTOINCREMENT, UserName_Employee TEXT NOT NULL, Password_Employee TEXT,Status INTEGER, Position TEXT, ID_Profiles INTEGER CONSTRAINT fk_profile REFERENCES Profiles (ID_Profiles))";
         db.execSQL(CrTab_User);
+
+
+        // Tảo bảng Group_Product
+        String Crtabl_Group_Product = " CREATE TABLE Group_Product (ID_Group_Product INTEGER PRIMARY KEY AUTOINCREMENT, Name_Group_Product TEXT)";
+        db.execSQL(Crtabl_Group_Product);
+
+        // tạo bảng Category
+        String CrTab_Category = "CREATE TABLE Category (ID_Category INTEGER PRIMARY KEY, Name_Category TEXT NOT NULL, ID_Group_Product INTEGER REFERENCES Group_Product (ID_Group_Product))";
+        db.execSQL(CrTab_Category);
+
+        // Tạo bảng Brand
+        String CrTabl_Brand = "CREATE TABLE Brand (ID_Brand INTEGER PRIMARY KEY AUTOINCREMENT, Name_Brand TEXT, Image_Brand BLOB)";
+        db.execSQL(CrTabl_Brand);
 
         // Tạo 1 profiles admin
         String Inser_oneProfiles = "INSERT INTO Profiles (Name, Age, Email, Phone_Number, Avartar) VALUES ('Nam', 19, 'namphamtrong123@gmail.com', '0964941802', null)";
         db.execSQL(Inser_oneProfiles);
 
         // Tạo 1 taài khoản  admin
-        String Insert_oneUser = "INSERT INTO Employee (UserName_Employee, Password_Employee, Position, ID_Profiles) VALUES ('nampham672005', 'namphamtrong1', 'admin', 1)";
+        String Insert_oneUser = "INSERT INTO Employee (UserName_Employee, Password_Employee, Status, Position, ID_Profiles) VALUES ('nampham672005', 'namphamtrong1',1 , 'admin', 0)";
         db.execSQL(Insert_oneUser);
 
 
@@ -39,6 +52,9 @@ public class DbHelper extends SQLiteOpenHelper {
         if (newVersion > oldVersion){
             db.execSQL("DROP TABLE IF EXISTS Employee");
             db.execSQL("DROP TABLE IF EXISTS Profiles");
+            db.execSQL("DROP TABLE IF EXISTS Category");
+            db.execSQL("DROP TABLE IF EXISTS Brand");
+            db.execSQL("DROP TABLE IF EXISTS Group_Product");
             onCreate(db);
         }
     }

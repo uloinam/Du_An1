@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="8dp"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Thêm loại sản phẩm mới"/>
+        <Spinner
+            android:layout_marginTop="40dp"
+            android:background="@color/gray"
+            tools:listitem="@layout/item_one_group_product"
+            android:id="@+id/sp_group_pruct"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <EditText
+            android:id="@+id/edt_Name"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/black"
+            android:hint="Tên loại mới"
+            android:textColorHint="@color/gray"
+            android:background="@drawable/border_edt"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"/>
+        <Button
+            android:id="@+id/btn_xacNhan"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:background="@drawable/border_edt"
+            android:backgroundTint="@color/blueIndex"
+            android:text="Xác nhận"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

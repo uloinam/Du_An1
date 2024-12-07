@@ -60,10 +60,11 @@ public class Login_Activity extends AppCompatActivity {
         User_Model userModel = userDao.get_OneUser(user_Name, passWord);
         if (userModel != null){
             if (user_Name.equals(userModel.getUser_Name()) && passWord.equals(userModel.getUser_Password())){
+                SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 Intent intent = new Intent(Login_Activity.this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("User",userModel );
-                intent.putExtras(bundle);
+                editor.putInt("id_empolyee", userModel.getId_User());
+                editor.apply();
                 startActivity(intent);
             }else {
                 Toast.makeText(this, "Sai mật khẩu hoặc password", Toast.LENGTH_SHORT).show();

@@ -27,13 +27,17 @@ public class Splash_Activity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Handler handler = new Handler();
         boolean check = sharedPreferences.getBoolean("MY_FIRT_INSTALL_APP", false);
-        Log.d("zzzzzzz", "onCreate: "+check);
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 if (sharedPreferences.getBoolean("MY_FIRT_INSTALL_APP", false)){
-                    startActivity(new Intent(Splash_Activity.this, Login_Activity.class));
+                    Integer id = sharedPreferences.getInt("USER_LOGIN", 0);
+                    Intent intent = new Intent(Splash_Activity.this, Login_Activity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id_user", id);
+                    startActivity(intent);
                     finishAffinity();
                 }else{
                     startActivity(new Intent(Splash_Activity.this, Introduce_Activity.class));
@@ -42,6 +46,6 @@ public class Splash_Activity extends AppCompatActivity {
                     finishAffinity();
                 }
             }
-        }, 3000);
+        }, 2500);
     }
 }
