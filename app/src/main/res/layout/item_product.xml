@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:id="@+id/line_01"
     android:layout_margin="10dp"
     android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView

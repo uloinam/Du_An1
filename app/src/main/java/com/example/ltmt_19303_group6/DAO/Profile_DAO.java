@@ -72,4 +72,24 @@ public class Profile_DAO {
         }
         return profileModel;
     }
+
+    public ArrayList<Profile_Model> search_LisT_profile(String key) {
+        sqLiteDatabase = dbHelper.getReadableDatabase();
+        ArrayList<Profile_Model> list = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT ID_Profiles, Name, Age, Email, Phone_Number, Avartar FROM Profiles WHERE Name LIKE"+"'%"+key+"%'", null);
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Integer id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                Integer Age = cursor.getInt(2);
+                String email = cursor.getString(3);
+                String phone_number = cursor.getString(4);
+                byte[] avatar = cursor.getBlob(5);
+                list.add(new Profile_Model(id, Age, name, email, phone_number, avatar));
+            }
+            cursor.close();
+        }
+        return list;
+    }
 }

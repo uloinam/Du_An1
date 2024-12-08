@@ -5,7 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -48,6 +56,7 @@ import com.example.ltmt_19303_group6.AdapterView.Adapter_Group_Product;
 import com.example.ltmt_19303_group6.DAO.Brand_DAO;
 import com.example.ltmt_19303_group6.DAO.Category_DAO;
 import com.example.ltmt_19303_group6.DAO.Group_Product_DAO;
+import com.example.ltmt_19303_group6.DAO.Profile_DAO;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Customer;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Doi_Password;
 import com.example.ltmt_19303_group6.Fragment.Fragment_HoaDon;
@@ -61,6 +70,7 @@ import com.example.ltmt_19303_group6.Login_SingIn.Login_Activity;
 import com.example.ltmt_19303_group6.Model.Brand_Model;
 import com.example.ltmt_19303_group6.Model.Category_Model;
 import com.example.ltmt_19303_group6.Model.Group_Product;
+import com.example.ltmt_19303_group6.Model.Profile_Model;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
@@ -94,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     Group_Product_DAO groupProductDao;
     Integer id_Group_Product;
     Brand_DAO brandDao ;
-
+    Profile_DAO profileDao;
 
     ImageView image_dialog_add_brand;
     @Override
@@ -111,12 +121,31 @@ public class MainActivity extends AppCompatActivity {
         edt_Search = findViewById(R.id.edt_search);
         // set actionbar
         setSupportActionBar(toolbar);
-
         evenClick_Menu_Toolbar();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN", MODE_PRIVATE);
-        Integer id = sharedPreferences.getInt("USER_LOGIN", 0);
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myFragMent == FRAGMENT_QUANLY_NHANVIEN){
+                    String keyword = edt_Search.getText().toString().trim();
 
+                    // Tạo Bundle để gửi dữ liệu
+                    Bundle bundle = new Bundle();
+                    bundle.putString("search_keyword", keyword);
+
+                    // Tạo Fragment và truyền dữ liệu
+                    Fragment_QL_NhanVien fragmentQlNhanVien = new Fragment_QL_NhanVien();
+                    fragmentQlNhanVien.setArguments(bundle);
+
+                    setFragment(fragmentQlNhanVien);
+                }
+            }
+        });
+
+        SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN", MODE_PRIVATE);
+        Integer id = sharedPreferences.getInt("id_empolyee", 0);
+
+        Profile_Model profileModel = profileDao.getProfile(id);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this
                 , drawerLayout
                 , toolbar
@@ -125,7 +154,24 @@ public class MainActivity extends AppCompatActivity {
 
         // thay thế icon hamburg default thành icon avartar
         drawerToggle.setDrawerIndicatorEnabled(false); // Disable default icon
-        toolbar.setNavigationIcon(R.drawable.account_ic); // Set custom icon
+        Drawable drawable = null;
+        if (profileModel != null){
+           if (profileModel.getAvatar() != null){
+               Bitmap bitmap = BitmapFactory.decodeByteArray(profileModel.getAvatar(), 0, profileModel.getAvatar().length);
+               int desiredWidth = 100; // Kích thước mong muốn
+               int desiredHeight = 100;
+               Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, desiredWidth, desiredHeight, false);
+
+               Bitmap circularBitmap = getCircularBitmap(resizedBitmap);
+               drawable = new BitmapDrawable(getResources(), circularBitmap);
+           }
+        }
+        if (drawable != null) {
+            toolbar.setNavigationIcon(drawable);
+        }else {
+            toolbar.setNavigationIcon(R.drawable.account_ic);
+        }
+        // Set custom icon
         toolbar.setNavigationOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         // set sự kiện lắng nghe của drawToggle
@@ -228,8 +274,9 @@ public class MainActivity extends AppCompatActivity {
                         Fragment_Profile fragmentProfile = new Fragment_Profile();
                         Bundle bundle = new Bundle();
                         bundle.putInt("id_user", id);
+
                         fragmentProfile.setArguments(bundle);
-                        setFragment(new Fragment_Profile());
+                        setFragment(fragmentProfile);
                         myFragMent = FRAGMENT_PROFILE;
                         setAction_Search();
                     }
@@ -358,6 +405,8 @@ public class MainActivity extends AppCompatActivity {
         categoryDao = new Category_DAO(MainActivity.this);
         groupProductDao = new Group_Product_DAO(MainActivity.this);
         brandDao = new Brand_DAO(MainActivity.this);
+
+        profileDao = new Profile_DAO(MainActivity.this);
     }
 
     // set sự kiện nhấn nút 3 chấm của toolbar
@@ -467,4 +516,28 @@ public class MainActivity extends AppCompatActivity {
         }
         return imageInByte;
     }
+
+    private Bitmap getCircularBitmap(Bitmap bitmap) {
+        int size = Math.min(bitmap.getWidth(), bitmap.getHeight());
+        Bitmap output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, size, size);
+        RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        // Vẽ hình tròn
+        paint.setColor(Color.BLACK);
+        canvas.drawOval(rectF, paint);
+
+        // Cắt bitmap thành hình tròn
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, null, rect, paint);
+
+        return output;
+    }
+
 }

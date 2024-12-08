@@ -23,7 +23,7 @@ import com.example.ltmt_19303_group6.AdapterView.Adapter_NhanVien;
 import com.example.ltmt_19303_group6.DAO.Profile_DAO;
 import com.example.ltmt_19303_group6.DAO.User_DAO;
 import com.example.ltmt_19303_group6.Model.Profile_Model;
-import com.example.ltmt_19303_group6.Model.User_Model;
+
 import com.example.ltmt_19303_group6.R;
 import com.example.ltmt_19303_group6.SpaceItemDecoration.SpaceItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -50,12 +50,27 @@ public class Fragment_QL_NhanVien extends Fragment {
         btn_add = view.findViewById(R.id.btn_add);
         rc_NhanVien = view.findViewById(R.id.rc_nhanVien);
 
+
+
         list = profileDao.getProfile();
         for (int  i =  0; i < list.size(); i++){
             if (list.get(i).getAvatar() == null){
                 list.remove(i);
             }
         }
+        Bundle arguments = getArguments();
+        String keyword = arguments != null ? arguments.getString("search_keyword", "") : "";
+
+        if (keyword != null){
+            // Gọi phương thức thực hiện tìm kiếm với từ khóa
+            list = profileDao.search_LisT_profile(keyword);
+            for (int  i =  0; i < list.size(); i++){
+                if (list.get(i).getAvatar() == null){
+                    list.remove(i);
+                }
+            }
+        }
+
         int spaceInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         rc_NhanVien.addItemDecoration(new SpaceItemDecoration(spaceInPixels));
         adapterNhanVien = new Adapter_NhanVien(list, getContext());

@@ -91,17 +91,18 @@ public class Fragment_Home extends Fragment implements Adapter_Group.ListenClick
         // set vị trí đầu tiên
         list_category = new ArrayList<>();
 
-        if (groupProductDao.getId_Firt() != null){
+        if (groupProductDao.getId_Firt() != null) {
             list_category = categoryDao.getLit_Category(groupProductDao.getId_Firt());
-            if (list_category != null){
+            if (list_category != null && !list_category.isEmpty()) {
                 adapterCategory = new Adapter_Category(context, list_category, this);
                 rc_Category.setAdapter(adapterCategory);
+                setDataList_Product(String.valueOf(list_category.get(0).getId()));
+            } else {
+
             }
         }
 
         click_add();
-
-        setDataList_Product(String.valueOf(list_category.get(0).getId()));
         return view;
     }
 
@@ -111,7 +112,6 @@ public class Fragment_Home extends Fragment implements Adapter_Group.ListenClick
 
         list_category.clear();
         list_category = categoryDao.getLit_Category(groupProduct.getId());
-
         adapterCategory = new Adapter_Category(context, list_category, this);
         rc_Category.setAdapter(adapterCategory);
     }

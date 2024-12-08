@@ -34,7 +34,7 @@ public class Brand_DAO {
         ArrayList<Brand_Model> list = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("SELECT ID_Brand, Name_Brand, Image_Brand FROM Brand", null);
-        cursor.moveToFirst();
+
         if (cursor != null){
             while (cursor.moveToNext()){
                 Integer id = cursor.getInt(0);
@@ -46,5 +46,21 @@ public class Brand_DAO {
             cursor.close();
         }
         return list;
+    }
+
+    public Brand_Model get_OneBrand(Integer id_brand){
+        database = dbHelper.getReadableDatabase();
+        Brand_Model brandModel = null;
+        Cursor cursor = database.rawQuery("SELECT ID_Brand, Name_Brand, Image_Brand FROM Brand WHERE ID_Brand = ?", new String[]{String.valueOf(id_brand)});
+        cursor.moveToFirst();
+        if (cursor != null) {
+            Integer id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            byte[] image = cursor.getBlob(2);
+            brandModel = new Brand_Model(id, name, image);
+        }
+
+
+        return brandModel;
     }
 }

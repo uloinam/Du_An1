@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent">
     <TextView
-        android:text="FRAG_CUSTOMER"
-        android:layout_width="wrap_content"
-        android:textSize="20dp"
+        android:id="@+id/tv_01"
+        android:layout_width="match_parent"
+        android:text="Danh sách khách hàng"
+        android:textSize="30dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:textStyle="bold"
         android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"/>
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_customer"
+        android:layout_below="@+id/tv_01"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentStart="true"
+        android:padding="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="match_parent"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_add"
+        android:layout_margin="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

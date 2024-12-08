@@ -162,9 +162,8 @@ public class Activity_Add_Product extends AppCompatActivity implements Adapter_a
                     String created = ""+day +"/"+month+"/"+year;
                     if (list_array_byte_image.size() > 0){
                         boolean reslut_text = productDao.add_Product(new Product_Model(null,quantity, price, height, weight, status, wight, id_brand, id_category, name_product, descript_product, created,  created, Suplier_product));
-                        list_product = productDao.get_List_Product();
 
-                        Integer id_product_new  = list_product.size();
+                        Integer id_product_new  = productDao.get_List_Product();
                         if (reslut_text){
                             for (int i = 0; i < list_array_byte_image.size(); i++){
                                 boolean reslut = imageDao.addImage_Product(new Image_product_Model(null, id_product_new,list_array_byte_image.get(i)));

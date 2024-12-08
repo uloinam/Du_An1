@@ -27,7 +27,6 @@ import java.util.ArrayList;
 public class Adapter_NhanVien extends RecyclerView.Adapter<Adapter_NhanVien.NhanVienViewHoDel> {
     ArrayList<Profile_Model> list;
     Context context;
-    String status = "Đã nghỉ";
 
     public Adapter_NhanVien(ArrayList<Profile_Model> list, Context context) {
         this.list = list;

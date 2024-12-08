@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context) {
-        super(context, "DuAn1.db", null, 21);
+        super(context, "DuAn1.db", null, 28);
     }
 
     @Override
@@ -54,20 +54,20 @@ public class DbHelper extends SQLiteOpenHelper {
 
         String Cratab_Image = "CREATE TABLE Image (ID_Image INTEGER PRIMARY KEY AUTOINCREMENT, Image BLOB, ID_product INTEGER REFERENCES Product (ID_product))";
         db.execSQL(Cratab_Image);
+
+        String Create_Customer = "CREATE TABLE Customer (ID_Customer INTEGER PRIMARY KEY AUTOINCREMENT, Name_Customer TEXT NOT NULL, Age_Customer INTEGER NOT NULL, Address_Customer TEXT NOT NULL, PhoneNumber_Customer TEXT NOT NULL)";
+        db.execSQL(Create_Customer);
+
+        String Create_Shop_Cart = "CREATE TABLE Shopping_Cart (ID_Cart INTEGER PRIMARY KEY AUTOINCREMENT, Quatity INTEGER, Unit_Price INTEGER, ID_Product INTEGER REFERENCES Product (ID_product), Subtotal INTEGER)";
+        db.execSQL(Create_Shop_Cart);
+
+        String Creatabl_Bill_Detail = "CREATE TABLE Bill_Detail (ID_Order_Detail INTEGER PRIMARY KEY AUTOINCREMENT, Quantity INTEGER, Price_Per_Unit INTEGER)";
+        db.execSQL(Creatabl_Bill_Detail);
+
+        String Creatab_Oder = "CREATE TABLE Orders (ID_Order INTEGER PRIMARY KEY AUTOINCREMENT, Date_Order TEXT, Total_Price INTEGER, ID_Customer INTEGER REFERENCES Customer(ID_Customer), ID_Employee INTEGER REFERENCES Employee(ID_Employee), ID_Bill_Detail INTEGER REFERENCES Bill_Detail(ID_Bill_Detail))";
+        db.execSQL(Creatab_Oder);
     }
 
-    public static Bitmap convertByteArrayToBitmap(byte[] byteArray) {
-        if (byteArray == null || byteArray.length == 0) {
-            return null;
-        }
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-    }
-
-    public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -79,6 +79,10 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS Group_Product");
             db.execSQL("DROP TABLE IF EXISTS Product");
             db.execSQL("DROP TABLE IF EXISTS Image");
+            db.execSQL("DROP TABLE IF EXISTS Customer");
+            db.execSQL("DROP TABLE IF EXISTS Shopping_Cart");
+            db.execSQL("DROP TABLE IF EXISTS Bill_Detail");
+            db.execSQL("DROP TABLE IF EXISTS Orders");
             onCreate(db);
         }
     }

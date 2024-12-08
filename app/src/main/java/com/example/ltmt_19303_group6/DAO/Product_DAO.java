@@ -40,34 +40,20 @@ public class Product_DAO {
         return reslut > 0;
     }
 
-    public ArrayList<Product_Model> get_List_Product(){
+    public Integer get_List_Product(){
         database = dbHelper.getReadableDatabase();
-        ArrayList<Product_Model> list = new ArrayList<>();
+        Integer index = 1;
 
-        Cursor cursor = database.rawQuery("SELECT ID_product, Name_Product, Describle_Product, Quantity_Product, Price_Product, Created_at, Updated_at, Supplier, Height_Product, Weight_Product, Status_Product, wight_Product, ID_Brand, ID_Category FROM Product", null);
+        Cursor cursor = database.rawQuery("SELECT ID_product FROM Product ORDER BY ID_product DESC LIMIT 1", null);
 
         if (cursor != null){
             while (cursor.moveToNext()){
-                Integer id = cursor.getInt(0);
-                String name = cursor.getString(1);
-                String describle = cursor.getString(2);
-                Integer quantity = cursor.getInt(3);
-                Integer price = cursor.getInt(4);
-                String created = cursor.getString(5);
-                String update = cursor.getString(6);
-                String Supplier = cursor.getString(7);
-                Integer Height_Product = cursor.getInt(8);
-                Integer Weight_Product = cursor.getInt(9);
-                Integer Status_Product = cursor.getInt(10);
-                Integer wight_Product = cursor.getInt(11);
-                Integer ID_Brand = cursor.getInt(12);
-                Integer ID_Category = cursor.getInt(13);
+                index = cursor.getInt(0);
 
-                list.add(new Product_Model(id, quantity, price, Height_Product, Weight_Product, Status_Product, wight_Product, ID_Brand, ID_Category, name, describle, created, update, Supplier ));
             }
             cursor.close();
         }
-        return  list;
+        return  index;
     }
 
     public ArrayList<Product_Model> getlist_product_one_image(){
@@ -98,10 +84,10 @@ public class Product_DAO {
         return list;
     }
 
-    public ArrayList<Product_Model> getlist_product_one_image_from_category(String id_Category){
+    public ArrayList<Product_Model> getlist_product_one_image_from_category(String id_category){
         database = dbHelper.getReadableDatabase();
         ArrayList<Product_Model> list  = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, MIN(Image.Image) AS Image, Category.Name_Category FROM Product INNER JOIN Image ON Product.ID_product = Image.ID_product INNER JOIN Category ON Product.ID_Category = Category.ID_Category WHERE Product.ID_Category = ? GROUP BY Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, Category.Name_Category", new String[]{id_Category});
+        Cursor cursor = database.rawQuery("SELECT Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, MIN(Image.Image) AS Image, Category.Name_Category FROM Product INNER JOIN Image ON Product.ID_product = Image.ID_product INNER JOIN Category ON Product.ID_Category = Category.ID_Category WHERE Product.ID_Category = ? GROUP BY Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, Category.Name_Category", new String[]{id_category});
         if (cursor != null){
             while (cursor.moveToNext()){
                 Integer id = cursor.getInt(0);
@@ -126,12 +112,12 @@ public class Product_DAO {
         return list;
     }
 
-    public Product_Model getProduct_detail(){
+    public Product_Model getProduct_detail(Integer id_product){
         database = dbHelper.getReadableDatabase();
         Product_Model productModel = null;
-        Cursor cursor = database.rawQuery("SELECT  Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, MIN(Image.Image) AS Image FROM Product INNER JOIN Image ON Product.ID_product = Image.ID_product", null);
+        Cursor cursor = database.rawQuery("SELECT Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.Weight_Product AS wight_Product, Product.ID_Brand, Product.ID_Category, Image.Image AS Image FROM Product INNER JOIN Image ON Product.ID_product = Image.ID_product WHERE Product.ID_product = ?", new String[]{String.valueOf(id_product)});
+        cursor.moveToFirst();
         if (cursor != null){
-            while (cursor.moveToNext()){
                 Integer id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 String describle = cursor.getString(2);
@@ -148,7 +134,7 @@ public class Product_DAO {
                 Integer ID_Category = cursor.getInt(13);
                 byte[] image = cursor.getBlob(14);
                 productModel = new Product_Model(id, quantity, price, Height_Product, Weight_Product, Status_Product, wight_Product, ID_Brand, ID_Category, name, describle, created, update, Supplier, image );
-            }
+
             cursor.close();
         }
         return productModel;

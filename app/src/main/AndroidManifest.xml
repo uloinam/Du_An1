@@ -14,8 +14,13 @@
         android:roundIcon="@mipmap/ic_logo_xanh"
         android:supportsRtl="true"
         android:theme="@style/Theme.LTMT_19303_Group6">
-        <activity
 
+        <activity
+            android:name=".Activity.Activity_Add_Customer"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_Add_Product"
+            android:exported="true" />
         <activity
             android:name=".Activity.Activity_Empolyee_Detail"
             android:exported="false" />
@@ -23,7 +28,7 @@
             android:name=".Activity.Add_Empolyee_Activity"
             android:exported="false" />
         <activity
-            android:name=".Splash_Activity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_Product_Detail"
@@ -35,7 +40,7 @@
             android:name=".Introduce_Activity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Splash_Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

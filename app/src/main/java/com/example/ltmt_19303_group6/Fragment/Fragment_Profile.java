@@ -1,6 +1,13 @@
 package com.example.ltmt_19303_group6.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +23,13 @@ import com.example.ltmt_19303_group6.DbHelper;
 import com.example.ltmt_19303_group6.Model.Profile_Model;
 import com.example.ltmt_19303_group6.R;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class Fragment_Profile extends Fragment {
     ImageView ivImg;
     TextView tvEmail, tvName, tv_age, phoneNumber;
-
+    Profile_DAO profile_dao;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,28 +41,30 @@ public class Fragment_Profile extends Fragment {
         tvName = view.findViewById(R.id.tvName);
         tv_age = view.findViewById(R.id.tv_age);
         phoneNumber = view.findViewById(R.id.tv_phoneNumber);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("USER_LOGIN", Context.MODE_PRIVATE);
+        Integer id = sharedPreferences.getInt("id_empolyee", 0);
+                // Lấy dữ liệu từ DAO
+        profile_dao = new Profile_DAO(getContext());
 
-        // Lấy dữ liệu từ DAO
-        Profile_DAO profile_dao = new Profile_DAO(requireContext());
-        ArrayList<Profile_Model> profileList = profile_dao.getProfile();
 
-        if (profileList != null && !profileList.isEmpty()) {
-            Profile_Model profile = profileList.get(0);
+
+            Profile_Model profile = profile_dao.getProfile(id);
 
             // Set dữ liệu vào view
-            tvName.setText(profile.getName_Empolyee());
-            tvEmail.setText(profile.getEmail_Empolyee());
-            tv_age.setText(String.valueOf(profile.getAge()));
-            phoneNumber.setText(profile.getPhone_Empolyee());
-
-            // Hiển thị ảnh đại diện (nếu có)
-            if (profile.getAvatar() != null && profile.getAvatar().length > 0) {
-                ivImg.setImageBitmap(DbHelper.convertByteArrayToBitmap(profile.getAvatar()));
-            } else {
-                ivImg.setImageResource(R.drawable.ic_user); // Ảnh mặc định nếu không có
+            if (profile != null){
+                tvName.setText(profile.getName_Empolyee());
+                tvEmail.setText(profile.getEmail_Empolyee());
+                tv_age.setText(String.valueOf(profile.getAge()));
+                phoneNumber.setText(profile.getPhone_Empolyee());
+                if (profile.getAvatar() != null && profile.getAvatar().length > 0) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(profile.getAvatar(), 0, profile.getAvatar().length);
+                    ivImg.setImageBitmap(bitmap);
+                } else {
+                    ivImg.setImageResource(R.drawable.ic_user);
+                }
             }
-        }
 
         return view;
     }
+
 }
