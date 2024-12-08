@@ -3,9 +3,14 @@ package com.example.ltmt_19303_group6;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +25,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -36,6 +45,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.ltmt_19303_group6.AdapterView.Adapter_Group_Product;
+import com.example.ltmt_19303_group6.DAO.Brand_DAO;
 import com.example.ltmt_19303_group6.DAO.Category_DAO;
 import com.example.ltmt_19303_group6.DAO.Group_Product_DAO;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Customer;
@@ -48,12 +58,16 @@ import com.example.ltmt_19303_group6.Fragment.Fragment_QL_NhanVien;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Shop_Cart;
 import com.example.ltmt_19303_group6.Fragment.Fragment_ThongKe_DoanhThu;
 import com.example.ltmt_19303_group6.Login_SingIn.Login_Activity;
+import com.example.ltmt_19303_group6.Model.Brand_Model;
 import com.example.ltmt_19303_group6.Model.Category_Model;
 import com.example.ltmt_19303_group6.Model.Group_Product;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
     Category_DAO categoryDao;
     Group_Product_DAO groupProductDao;
     Integer id_Group_Product;
+    Brand_DAO brandDao ;
+
+
+    ImageView image_dialog_add_brand;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else if (item.getItemId() == R.id.nav_category) {
                     ShowDiaLog_Add_Category();
+                } else if (item.getItemId() == R.id.nav_brand) {
+                    shoadiaLog_Add_Brand();
                 }
                 drawerLayout.close();
                 return true;
@@ -217,6 +237,50 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void shoadiaLog_Add_Brand() {
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_add_brand, null, false);
+
+        image_dialog_add_brand = view.findViewById(R.id.img_branch);
+        EditText edt_name = view.findViewById(R.id.edt_Name);
+        Button btn_XacNhan = view.findViewById(R.id.btn_xacNhan);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(view);
+
+        Dialog dialog = builder.create();
+
+        image_dialog_add_brand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                openGarellye_Launcher.launch(intent);
+            }
+        });
+
+        btn_XacNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name_brand = edt_name.getText().toString().trim();
+                if (name_brand.isEmpty()){
+                    edt_name.setError("Chưa nhập dữ liệu");
+                }else{
+                    byte[] image = coverImage_to_Byte(image_dialog_add_brand);
+                    if (image != null){
+                        boolean reslut = brandDao.add_brand(new Brand_Model(null, name_brand,image ));
+                        if (reslut){
+                            Toast.makeText(MainActivity.this, "Thêm hãng thành công", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }else {
+                        Toast.makeText(MainActivity.this, "Bạn chưa chọn ảnh", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        dialog.show();
     }
 
     private void ShowDiaLog_Add_Category() {
@@ -293,6 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
         categoryDao = new Category_DAO(MainActivity.this);
         groupProductDao = new Group_Product_DAO(MainActivity.this);
+        brandDao = new Brand_DAO(MainActivity.this);
     }
 
     // set sự kiện nhấn nút 3 chấm của toolbar
@@ -359,5 +424,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    ActivityResultLauncher<Intent> openGarellye_Launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult()
+            , new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getData() != null){
+                        try {
+                            if (result.getResultCode() == RESULT_OK) {
+                                Intent data = result.getData();
+                                Uri imageUri = data.getData();
+                                try {
+                                    InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                                    image_dialog_add_brand.setImageBitmap(bitmap);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        }catch (Exception e){
+
+                        }
+                    }
+
+                }
+            });
+
+
+    public byte[] coverImage_to_Byte(ImageView imageView){
+        byte[] imageInByte = null;
+        try {
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            imageInByte = baos.toByteArray();
+        }catch (Exception e){
+            Log.d("zzzzzz", "coverImage_to_Byte: Lỗi vclll");
+        }
+        return imageInByte;
     }
 }

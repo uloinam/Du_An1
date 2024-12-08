@@ -26,7 +26,7 @@ public class Brand_DAO {
 
         long reslut = database.insert("Brand", null, values);
 
-        return 0 > reslut;
+        return reslut > 0;
     }
 
     public ArrayList<Brand_Model> get_list_Brand(){
@@ -34,6 +34,7 @@ public class Brand_DAO {
         ArrayList<Brand_Model> list = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("SELECT ID_Brand, Name_Brand, Image_Brand FROM Brand", null);
+        cursor.moveToFirst();
         if (cursor != null){
             while (cursor.moveToNext()){
                 Integer id = cursor.getInt(0);

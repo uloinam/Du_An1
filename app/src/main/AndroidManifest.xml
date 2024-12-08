@@ -15,14 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LTMT_19303_Group6">
         <activity
-            android:name=".AboutUsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OrderHistoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditProfileActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.Activity_Empolyee_Detail"
             android:exported="false" />

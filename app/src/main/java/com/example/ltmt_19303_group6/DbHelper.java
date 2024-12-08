@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context) {
-        super(context, "DuAn1.db", null, 17);
+        super(context, "DuAn1.db", null, 21);
     }
 
     @Override
@@ -48,7 +48,12 @@ public class DbHelper extends SQLiteOpenHelper {
         String Insert_oneUser = "INSERT INTO Employee (UserName_Employee, Password_Employee, Status, Position, ID_Profiles) VALUES ('nampham672005', 'namphamtrong1',1 , 'admin', 0)";
         db.execSQL(Insert_oneUser);
 
+        // tạo bảng product
+        String Crtabl_Product = "CREATE TABLE Product (ID_product INTEGER PRIMARY KEY AUTOINCREMENT, Name_Product TEXT, Describle_Product TEXT, Quantity_Product INTEGER, Price_Product INTEGER, Created_at TEXT, Updated_at TEXT, Supplier TEXT, Height_Product INTEGER, Weight_Product INTEGER, Status_Product INTEGER, wight_Product INTEGER, ID_Brand INTEGER REFERENCES Brand (ID_Brand), ID_Category INTEGER REFERENCES Category (ID_Category))";
+        db.execSQL(Crtabl_Product);
 
+        String Cratab_Image = "CREATE TABLE Image (ID_Image INTEGER PRIMARY KEY AUTOINCREMENT, Image BLOB, ID_product INTEGER REFERENCES Product (ID_product))";
+        db.execSQL(Cratab_Image);
     }
 
     public static Bitmap convertByteArrayToBitmap(byte[] byteArray) {
@@ -72,6 +77,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS Category");
             db.execSQL("DROP TABLE IF EXISTS Brand");
             db.execSQL("DROP TABLE IF EXISTS Group_Product");
+            db.execSQL("DROP TABLE IF EXISTS Product");
+            db.execSQL("DROP TABLE IF EXISTS Image");
             onCreate(db);
         }
     }

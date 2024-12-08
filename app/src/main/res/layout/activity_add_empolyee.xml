@@ -54,7 +54,6 @@
                 android:background="@drawable/border_edt"
                 android:id="@+id/edt_Username"
                 android:layout_width="match_parent"
-                android:textColorHint="@color/black"
                 android:layout_height="45dp"
                 android:paddingLeft="5dp"
                 android:hint="Tên người dùng"/>
@@ -74,7 +73,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_Password"
                 android:layout_width="match_parent"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:textColor="@color/black"
                 android:lines="1"
                 android:background="@drawable/border_edt"
@@ -88,14 +87,12 @@
             android:layout_width="250dp"
             android:layout_marginTop="40dp"
             app:hintTextColor="@color/gray"
-
             app:layout_constraintStart_toStartOf="parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_Name"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                app:hintEnabled="true"
                 android:background="@drawable/border_edt"
                 android:paddingLeft="5dp"
                 android:textColor="@color/black"
@@ -110,7 +107,6 @@
             android:layout_width="100dp"
             android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:hintEnabled="true"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_Age"
@@ -131,14 +127,13 @@
             android:layout_width="match_parent"
             android:layout_marginTop="40dp"
             app:hintTextColor="@color/gray"
-            app:hintEnabled="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_PhoneNumber"
                 android:layout_width="match_parent"
-                android:inputType="text"
+                android:inputType="number"
                 android:background="@drawable/border_edt"
                 android:lines="1"
                 android:textColor="@color/black"

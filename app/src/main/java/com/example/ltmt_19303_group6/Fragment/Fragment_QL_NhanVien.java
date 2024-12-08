@@ -49,6 +49,7 @@ public class Fragment_QL_NhanVien extends Fragment {
         profileDao = new Profile_DAO(getContext());
         btn_add = view.findViewById(R.id.btn_add);
         rc_NhanVien = view.findViewById(R.id.rc_nhanVien);
+
         list = profileDao.getProfile();
         for (int  i =  0; i < list.size(); i++){
             if (list.get(i).getAvatar() == null){
