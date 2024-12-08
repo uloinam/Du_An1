@@ -54,6 +54,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
         String Cratab_Image = "CREATE TABLE Image (ID_Image INTEGER PRIMARY KEY AUTOINCREMENT, Image BLOB, ID_product INTEGER REFERENCES Product (ID_product))";
         db.execSQL(Cratab_Image);
+        String Customer = "CREATE TABLE Customer (ID_Customer INTEGER PRIMARY KEY AUTOINCREMENT, Name_Customer TEXT NOT NULL, Age_Customer INTEGER NOT NULL, Address_Customer TEXT NOT NULL, PhoneNumber_Customer TEXT NOT NULL);";
+        db.execSQL(Customer);
+
+        String Orders = "CREATE TABLE Orders (ID_Order INTEGER PRIMARY KEY AUTOINCREMENT, Date_Order TEXT NOT NULL, Total_Price REAL NOT NULL, ID_Customer INTEGER REFERENCES Customer (ID_Customer), ID_Empolyee INTEGER REFERENCES Customer (ID_Customer));";
+        db.execSQL(Orders);
+
+        String Bill = "CREATE TABLE Bill (ID_Order INTEGER PRIMARY KEY AUTOINCREMENT, Date_Order TEXT NOT NULL, Total_Price REAL NOT NULL, ID_Customer INTEGER REFERENCES Customer (ID_Customer), ID_Empolyee INTEGER REFERENCES Customer (ID_Customer));";
+        db.execSQL(Bill);
+
     }
 
     public static Bitmap convertByteArrayToBitmap(byte[] byteArray) {
@@ -79,6 +88,9 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS Group_Product");
             db.execSQL("DROP TABLE IF EXISTS Product");
             db.execSQL("DROP TABLE IF EXISTS Image");
+            db.execSQL("DROP TABLE IF EXISTS Customer");
+            db.execSQL("DROP TABLE IF EXISTS Orders");
+            db.execSQL("DROP TABLE IF EXISTS Bill");
             onCreate(db);
         }
     }

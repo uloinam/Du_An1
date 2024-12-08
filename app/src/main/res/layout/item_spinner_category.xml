@@ -19,7 +19,6 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:gravity="center_vertical" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
