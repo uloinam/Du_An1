@@ -50,10 +50,7 @@ public class Adapter_NhanVien extends RecyclerView.Adapter<Adapter_NhanVien.Nhan
         holder.tv_Age.setText("Tuổi: "+profile_Model.getAge());
         holder.tv_Email.setText("Email: "+profile_Model.getEmail_Empolyee());
         holder.tv_Phone_Number.setText("Số điện thoại: "+profile_Model.getPhone_Empolyee());
-//        if (userModel.getStatus() == 1){
-//            status = "Đang làm";
-//        }
-//        holder.tv_Status.setText("Trạng thái: "+status);
+
         holder.tv_Details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

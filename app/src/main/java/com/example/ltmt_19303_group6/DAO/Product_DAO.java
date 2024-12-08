@@ -98,6 +98,34 @@ public class Product_DAO {
         return list;
     }
 
+    public ArrayList<Product_Model> getlist_product_one_image_from_category(String id_Category){
+        database = dbHelper.getReadableDatabase();
+        ArrayList<Product_Model> list  = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, MIN(Image.Image) AS Image, Category.Name_Category FROM Product INNER JOIN Image ON Product.ID_product = Image.ID_product INNER JOIN Category ON Product.ID_Category = Category.ID_Category WHERE Product.ID_Category = ? GROUP BY Product.ID_product, Product.Name_Product, Product.Describle_Product, Product.Quantity_Product, Product.Price_Product, Product.Created_at, Product.Updated_at, Product.Supplier, Product.Height_Product, Product.Weight_Product, Product.Status_Product, Product.wight_Product, Product.ID_Brand, Product.ID_Category, Category.Name_Category", new String[]{id_Category});
+        if (cursor != null){
+            while (cursor.moveToNext()){
+                Integer id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String describle = cursor.getString(2);
+                Integer quantity = cursor.getInt(3);
+                Integer price = cursor.getInt(4);
+                String created = cursor.getString(5);
+                String update = cursor.getString(6);
+                String Supplier = cursor.getString(7);
+                Integer Height_Product = cursor.getInt(8);
+                Integer Weight_Product = cursor.getInt(9);
+                Integer Status_Product = cursor.getInt(10);
+                Integer wight_Product = cursor.getInt(11);
+                Integer ID_Brand = cursor.getInt(12);
+                Integer ID_Category = cursor.getInt(13);
+                byte[] image = cursor.getBlob(14);
+                list.add(new Product_Model(id, quantity, price, Height_Product, Weight_Product, Status_Product, wight_Product, ID_Brand, ID_Category, name, describle, created, update, Supplier, image ));
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
     public Product_Model getProduct_detail(){
         database = dbHelper.getReadableDatabase();
         Product_Model productModel = null;
@@ -125,4 +153,5 @@ public class Product_DAO {
         }
         return productModel;
     }
+
 }

@@ -36,7 +36,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class Fragment_Home extends Fragment implements Adapter_Group.ListenClickItem {
+public class Fragment_Home extends Fragment implements Adapter_Group.ListenClickItem, Adapter_Category.ListenClickItem {
     RecyclerView rc_lvProduct, rc_Group_product, rc_Category;
     Context context;
 
@@ -94,18 +94,16 @@ public class Fragment_Home extends Fragment implements Adapter_Group.ListenClick
         if (groupProductDao.getId_Firt() != null){
             list_category = categoryDao.getLit_Category(groupProductDao.getId_Firt());
             if (list_category != null){
-                adapterCategory = new Adapter_Category(context, list_category);
+                adapterCategory = new Adapter_Category(context, list_category, this);
                 rc_Category.setAdapter(adapterCategory);
             }
         }
 
         click_add();
-        setDataList_Product();
 
+        setDataList_Product(String.valueOf(list_category.get(0).getId()));
         return view;
     }
-
-
 
 
     @Override
@@ -114,7 +112,7 @@ public class Fragment_Home extends Fragment implements Adapter_Group.ListenClick
         list_category.clear();
         list_category = categoryDao.getLit_Category(groupProduct.getId());
 
-        adapterCategory = new Adapter_Category(context, list_category);
+        adapterCategory = new Adapter_Category(context, list_category, this);
         rc_Category.setAdapter(adapterCategory);
     }
 
@@ -137,11 +135,16 @@ public class Fragment_Home extends Fragment implements Adapter_Group.ListenClick
         }
     });
 
-    public void setDataList_Product(){
-        list_product = productDao.getlist_product_one_image();
+    public void setDataList_Product(String id_Category){
+        list_product = productDao.getlist_product_one_image_from_category(id_Category);
         if (list_product != null){
             adapterProduct = new Adapter_Product(list_product, context);
             rc_lvProduct.setAdapter(adapterProduct);
         }
+    }
+
+    @Override
+    public void click_category(Category_Model categoryModel) {
+        setDataList_Product(String.valueOf(categoryModel.getId()));
     }
 }

@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
+    android:layout_width="200dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
@@ -9,7 +9,7 @@
         android:layout_width="200dp"
         app:cardCornerRadius="10dp"
         android:padding="10dp"
-        android:background="@color/color_Border_Image_Product"
+        app:cardBackgroundColor="@color/white"
         android:layout_height="300dp">
         <ImageView
             android:id="@+id/image_product"

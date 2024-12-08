@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class Activity_Add_Product extends AppCompatActivity implements Adapter_a
     Spinner sp_Group_Product, sp_Category, sp_Brand;
     RecyclerView rc_image_product;
     Adapter_Spinner_Brand adapterSpinnerBrand;
+    ImageView image_back;
 
     Brand_DAO brandDao;
     Group_Product_DAO groupProductDao;
@@ -93,7 +95,17 @@ public class Activity_Add_Product extends AppCompatActivity implements Adapter_a
 
         event_clickAdd_Product();
 
+        evenClick_back();
         getStSatus();
+    }
+
+    private void evenClick_back() {
+        image_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void event_clickAdd_Product() {
@@ -148,15 +160,18 @@ public class Activity_Add_Product extends AppCompatActivity implements Adapter_a
                     int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
                     int year = calendar.get(Calendar.YEAR);
                     String created = ""+day +"/"+month+"/"+year;
-                    boolean reslut_text = productDao.add_Product(new Product_Model(null,quantity, price, height, weight, status, wight, id_brand, id_category, name_product, descript_product, created,  created, Suplier_product));
-                    list_product = productDao.get_List_Product();
-                    Integer id_product_new  = list_product.size();
-                    if (reslut_text){
-                        for (int i = 0; i < list_array_byte_image.size(); i++){
-                            boolean reslut = imageDao.addImage_Product(new Image_product_Model(null, id_product_new,list_array_byte_image.get(i)));
+                    if (list_array_byte_image.size() > 0){
+                        boolean reslut_text = productDao.add_Product(new Product_Model(null,quantity, price, height, weight, status, wight, id_brand, id_category, name_product, descript_product, created,  created, Suplier_product));
+                        list_product = productDao.get_List_Product();
+
+                        Integer id_product_new  = list_product.size();
+                        if (reslut_text){
+                            for (int i = 0; i < list_array_byte_image.size(); i++){
+                                boolean reslut = imageDao.addImage_Product(new Image_product_Model(null, id_product_new,list_array_byte_image.get(i)));
+                            }
+                            Toast.makeText(Activity_Add_Product.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
-                        Toast.makeText(Activity_Add_Product.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                        finish();
                     }
                 }
             }
@@ -173,6 +188,7 @@ public class Activity_Add_Product extends AppCompatActivity implements Adapter_a
         edt_Quantity = findViewById(R.id.edt_quantity);
         edt_supiler = findViewById(R.id.edt_Supiler);
         edt_descript = findViewById(R.id.edt_descrip);
+        image_back = findViewById(R.id.btn_back);
 
         rdo_dangBan = findViewById(R.id.rdo_dangBan);
         rdo_hetHang = findViewById(R.id.rdo_hetHang);
