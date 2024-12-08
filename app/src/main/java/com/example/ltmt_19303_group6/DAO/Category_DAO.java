@@ -28,10 +28,10 @@ public class Category_DAO {
         return reslut > 0;
     }
 
-    public ArrayList<Category_Model> getLit_Category (){
+    public ArrayList<Category_Model> getLit_Category (Integer id_group_product){
         database = dbHelper.getReadableDatabase();
         ArrayList<Category_Model> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM Category", null);
+        Cursor cursor = database.rawQuery("SELECT ID_Category, Name_Category, ID_Group_Product FROM Category WHERE ID_Group_Product = ?", new String[]{String.valueOf(id_group_product)});
 
         if (cursor != null){
             while (cursor.moveToNext()){
@@ -44,4 +44,7 @@ public class Category_DAO {
         }
         return list;
     }
-}
+
+
+    }
+

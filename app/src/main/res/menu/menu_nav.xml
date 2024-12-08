@@ -16,6 +16,9 @@
     <item android:id="@+id/nav_category"
         android:icon="@drawable/ic_category"
         android:title="Thêm loại sản phẩm"/>
+    <item android:id="@+id/nav_brand"
+        android:icon="@drawable/ic_brand"
+        android:title="Thêm Hãng"/>
     <group android:checkableBehavior="single" >
         <item android:title="Tài khoản"
             android:iconTint="@color/black">

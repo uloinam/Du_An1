@@ -46,4 +46,18 @@ public class Group_Product_DAO {
 
         return list;
     }
+    public Integer getId_Firt(){
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM Group_Product", null);
+
+        Integer id = null;
+        if (cursor != null && cursor.moveToFirst()){
+            id = cursor.getInt(0);
+            cursor.close();
+            return id;
+        }else {
+            cursor.close();
+            return id;
+        }
+    }
 }

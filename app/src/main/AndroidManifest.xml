@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,7 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo_xanh"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LTMT_19303_Group6" >
+        android:theme="@style/Theme.LTMT_19303_Group6">
+        <activity
+            android:name=".Activity.Activity_Add_Product"
+            android:exported="false" />
         <activity
             android:name=".Activity.Activity_Empolyee_Detail"
             android:exported="false" />
@@ -34,7 +37,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
