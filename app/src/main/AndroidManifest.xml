@@ -15,8 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LTMT_19303_Group6">
         <activity
-            android:name=".Activity.Activity_Add_Product"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.Activity_Empolyee_Detail"
             android:exported="false" />
