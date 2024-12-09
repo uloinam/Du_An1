@@ -1,6 +1,8 @@
 package com.example.ltmt_19303_group6.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,18 +22,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ltmt_19303_group6.AdapterView.Adapter_item_rc_product;
+import com.example.ltmt_19303_group6.DAO.Bill_Detail_DAO;
 import com.example.ltmt_19303_group6.DAO.Brand_DAO;
+import com.example.ltmt_19303_group6.DAO.Customer_DAO;
 import com.example.ltmt_19303_group6.DAO.Image_DAO;
+import com.example.ltmt_19303_group6.DAO.Order_DAO;
 import com.example.ltmt_19303_group6.DAO.Product_DAO;
 import com.example.ltmt_19303_group6.DAO.Shop_Cart_DAO;
 import com.example.ltmt_19303_group6.Model.Brand_Model;
 import com.example.ltmt_19303_group6.Model.Image_product_Model;
+import com.example.ltmt_19303_group6.Model.Order_Model;
 import com.example.ltmt_19303_group6.Model.Product_Model;
 import com.example.ltmt_19303_group6.Model.Shop_Cart_Model;
 import com.example.ltmt_19303_group6.R;
 import com.example.ltmt_19303_group6.SpaceItemDecoration.HorizontalSpaceItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Activity_Product_Detail extends AppCompatActivity implements Adapter_item_rc_product.ListenClickItem_Image {
     private ImageView btnBack, btnUpdate, imageProduct, btnRemoveCountProduct, btnAddCountProduct;
@@ -47,6 +54,9 @@ public class Activity_Product_Detail extends AppCompatActivity implements Adapte
     Adapter_item_rc_product adapterItemRcProduct;
     Shop_Cart_DAO shopCartDao;
     Product_Model productModel;
+    Bill_Detail_DAO billDetailDao;
+    Order_DAO orderDao ;
+    Customer_DAO customerDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +104,39 @@ public class Activity_Product_Detail extends AppCompatActivity implements Adapte
                 Integer quantity_product_shop_cart = Integer.parseInt(edtCountProduct.getText().toString().trim());
                 Integer price_Product = quantity_product_shop_cart * productModel.getPrice_product();
 
-                boolean reslut = shopCartDao.add_product_to_Shopcar(new Shop_Cart_Model(null, quantity_product_shop_cart, price_Product, productModel.getId_productl(), productModel.getPrice_product()));
-                if (reslut){
-                    Toast.makeText(Activity_Product_Detail.this, "Đã thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                    finish();
+                Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+                int year = calendar.get(Calendar.YEAR);
+                String created = ""+day +"/"+month+"/"+year;
+
+                Integer id_Bill_detail = billDetailDao.getOne_LastIdex();
+
+                Integer id_Customer = customerDao.getOne_LastIdex();
+
+                if (id_Bill_detail == null || id_Bill_detail == 0) {
+                    id_Bill_detail = 1;
+                }
+                SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN", Context.MODE_PRIVATE);
+                Integer id_Empolyee = sharedPreferences.getInt("id_empolyee", 0);
+                if (id_Customer == null || id_Customer == 0) {
+                    id_Customer = 1;
+                }
+
+                boolean reslut_Order = orderDao.add_Order(new Order_Model(null, created, price_Product, id_Customer, id_Empolyee, id_Bill_detail));
+
+                if (reslut_Order){
+                    Integer id_Order = orderDao.getOne_LastIdex();
+                    if (id_Order == null || id_Order == 0 ){
+                        id_Order = 1;
+                    }
+                    boolean reslut_shopvart = shopCartDao.add_product_to_Shopcar(new Shop_Cart_Model(null, quantity_product_shop_cart, price_Product, productModel.getId_productl(), productModel.getPrice_product(), id_Order));
+                    if (reslut_shopvart){
+                        Toast.makeText(Activity_Product_Detail.this, "Đã thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                        //Integer idCart, int quantity, int unitPrice, int idProduct, int subtotal, Integer id_Order
+
                 }
             }
         });
@@ -163,6 +202,9 @@ public class Activity_Product_Detail extends AppCompatActivity implements Adapte
         imageDao = new Image_DAO(Activity_Product_Detail.this);
         productDao = new Product_DAO(Activity_Product_Detail.this);
         shopCartDao = new Shop_Cart_DAO(Activity_Product_Detail.this);
+        billDetailDao = new Bill_Detail_DAO(Activity_Product_Detail.this);
+        orderDao = new Order_DAO(Activity_Product_Detail.this);
+        customerDao = new Customer_DAO(Activity_Product_Detail.this);
     }
 
 

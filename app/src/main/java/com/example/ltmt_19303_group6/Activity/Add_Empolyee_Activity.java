@@ -219,7 +219,6 @@ public class Add_Empolyee_Activity extends AppCompatActivity {
                                 boolean reslut = profileDao.addProfile(new Profile_Model(null, Age, name, email, phone_number, image_byte_avatar));
                                 if (reslut){
                                     Integer index_last_Profile = profileDao.getProfile().size();
-                                    Toast.makeText(Add_Empolyee_Activity.this, ""+index_last_Profile, Toast.LENGTH_SHORT).show();
                                     boolean check = userDao.addEmpolyee(new User_Model(null, index_last_Profile, status, user_Name, pass_word, "NhanVien"));
 
                                     if (check){

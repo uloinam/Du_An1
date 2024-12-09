@@ -125,6 +125,7 @@
         app:layout_constraintBottom_toBottomOf="@id/btn_remove_Count_Product"
         android:layout_width="50dp"
         android:text="1"
+        android:inputType="number"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/white"

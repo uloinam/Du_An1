@@ -57,6 +57,7 @@ import com.example.ltmt_19303_group6.DAO.Brand_DAO;
 import com.example.ltmt_19303_group6.DAO.Category_DAO;
 import com.example.ltmt_19303_group6.DAO.Group_Product_DAO;
 import com.example.ltmt_19303_group6.DAO.Profile_DAO;
+import com.example.ltmt_19303_group6.DAO.User_DAO;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Customer;
 import com.example.ltmt_19303_group6.Fragment.Fragment_Doi_Password;
 import com.example.ltmt_19303_group6.Fragment.Fragment_HoaDon;
@@ -71,6 +72,7 @@ import com.example.ltmt_19303_group6.Model.Brand_Model;
 import com.example.ltmt_19303_group6.Model.Category_Model;
 import com.example.ltmt_19303_group6.Model.Group_Product;
 import com.example.ltmt_19303_group6.Model.Profile_Model;
+import com.example.ltmt_19303_group6.Model.User_Model;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
@@ -123,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         evenClick_Menu_Toolbar();
 
+
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +148,24 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("USER_LOGIN", MODE_PRIVATE);
         Integer id = sharedPreferences.getInt("id_empolyee", 0);
+        User_DAO userDao = new User_DAO(MainActivity.this);
 
+        User_Model userModel = userDao.getOneEmpolyee(id);
+
+        Menu menu = nav.getMenu();
+
+        MenuItem menuItemThongKe = menu.findItem(R.id.nav_thongKe);
+        menuItemThongKe.setVisible(false);
+        MenuItem menuDoiPass = menu.findItem(R.id.nav_DoiPassword);
+        menuDoiPass.setVisible(false);
+        MenuItem hoadon = menu.findItem(R.id.nav_HoaDon);
+        hoadon.setVisible(false);
+        if(userModel != null){
+            if (userModel.getUser_Posion().equals("NhanVien")){
+                MenuItem menuQlNV = menu.findItem(R.id.nav_QLNV);
+                menuQlNV.setVisible(false);
+            }
+        }
         Profile_Model profileModel = profileDao.getProfile(id);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(MainActivity.this
                 , drawerLayout
@@ -156,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.setDrawerIndicatorEnabled(false); // Disable default icon
         Drawable drawable = null;
         if (profileModel != null){
+
+
+
            if (profileModel.getAvatar() != null){
                Bitmap bitmap = BitmapFactory.decodeByteArray(profileModel.getAvatar(), 0, profileModel.getAvatar().length);
                int desiredWidth = 100; // Kích thước mong muốn
@@ -231,6 +255,10 @@ public class MainActivity extends AppCompatActivity {
                     ShowDiaLog_Add_Category();
                 } else if (item.getItemId() == R.id.nav_brand) {
                     shoadiaLog_Add_Brand();
+                }
+                else if (item.getItemId() == R.id.nav_Dangxuat) {
+                    startActivity(new Intent(MainActivity.this, Login_Activity.class));
+                    finishAffinity();
                 }
                 drawerLayout.close();
                 return true;

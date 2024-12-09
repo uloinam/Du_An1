@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context) {
-        super(context, "DuAn1.db", null, 28);
+        super(context, "DuAn1.db", null, 29);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String Create_Customer = "CREATE TABLE Customer (ID_Customer INTEGER PRIMARY KEY AUTOINCREMENT, Name_Customer TEXT NOT NULL, Age_Customer INTEGER NOT NULL, Address_Customer TEXT NOT NULL, PhoneNumber_Customer TEXT NOT NULL)";
         db.execSQL(Create_Customer);
 
-        String Create_Shop_Cart = "CREATE TABLE Shopping_Cart (ID_Cart INTEGER PRIMARY KEY AUTOINCREMENT, Quatity INTEGER, Unit_Price INTEGER, ID_Product INTEGER REFERENCES Product (ID_product), Subtotal INTEGER)";
+        String Create_Shop_Cart = "CREATE TABLE Shopping_Cart (ID_Cart INTEGER PRIMARY KEY AUTOINCREMENT, Quatity INTEGER, Unit_Price INTEGER, ID_Product INTEGER REFERENCES Product (ID_product), Subtotal INTEGER, ID_Order REFERENCES Orders (ID_Order))";
         db.execSQL(Create_Shop_Cart);
 
         String Creatabl_Bill_Detail = "CREATE TABLE Bill_Detail (ID_Order_Detail INTEGER PRIMARY KEY AUTOINCREMENT, Quantity INTEGER, Price_Per_Unit INTEGER)";
